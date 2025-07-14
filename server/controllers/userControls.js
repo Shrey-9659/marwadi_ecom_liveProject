@@ -26,7 +26,7 @@ const userControls = {
             const refreshToken = createRefreshToken({id : newUser._id})
 
             // const accessToken = jwt.sign({id: newUser._id}, process.env.ACCESS_SECRET_KEY, {expiresIn : '1d'})
-            res.cookie("refreshToken", refreshToken, {
+            res.cookie("refreshtoken", refreshToken, {
                 httpOnly : true,
                 path : "/user/refreshtoken"
             })
@@ -38,6 +38,19 @@ const userControls = {
         }
     },
     refreshtoken : (req, res) => {
+        try {
+            const refToken = req.cookies.refreshtoken;
+            if(!refToken)
+                return res.status(400).json({status : false, msg : "Please login or register"})
+            jwt.verify(refToken, process.env.REFRESH_SECRET_KEY, (err, user) => {
+                if(err)
+                    return res.status(400).json({status : false, msg : "Please login or register"})
+                const accessToken = createAccessToken({id : user.id})
+                res.json({accessToken, user})
+            })
+        } catch (err) {
+            res.status(500).json({status : false, msg : err.message})
+        }
         
     }
 }
@@ -47,7 +60,7 @@ const createAccessToken = (payload) => {
 }
 
 const createRefreshToken = (payload) => {
-    return jwt.sign(payload, process.env.ACCESS_SECRET_KEY, {expiresIn : '7d'})
+    return jwt.sign(payload, process.env.REFRESH_SECRET_KEY, {expiresIn : '7d'})
 }
 
 module.exports = userControls;
