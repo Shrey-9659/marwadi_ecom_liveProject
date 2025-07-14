@@ -6,6 +6,7 @@ const app = express()
 const URL = process.env.MONGO_URI
 const userRoutes = require("./routes/userRoutes")
 
+app.use(express.json())
 app.use("/user", userRoutes)
 
 app.listen(PORT, () => {
