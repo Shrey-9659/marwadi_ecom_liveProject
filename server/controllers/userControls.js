@@ -82,12 +82,13 @@ const userControls = {
         res.status(200).json({status : true, msg : "Logout successful"})
         } catch (err) {
             res.status(500).json({status : false, msg : err.message})
-        }
-        
-
+        }     
     },
     getUser : async(req, res) => {
-
+        const thisUser = await userModel.findById(req.user.id).select("-password")
+        if(!thisUser)
+            return res.status(400).json({status : false, msg : "User not found"})
+        res.status(200).json({status: true, user : thisUser})
     }
 }
 
