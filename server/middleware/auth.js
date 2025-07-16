@@ -7,7 +7,7 @@ const auth = async (req, res, next) => {
         if(!token)
             return res.status(400).json({status : false, msg : "User not found"})
         const payload = jwt.verify(token, process.env.ACCESS_SECRET_KEY)
-        res.user = payload;
+        req.user = payload;
         next();
     } catch (err) {
         res.status(500).json({status : false, msg : err.message})

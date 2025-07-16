@@ -21,3 +21,17 @@ app.listen(PORT, () => {
 mongoose.connect(URL)
 .then(() => console.log("DB connection successful"))
 .catch((err) => console.log("DB connection failed", err.message))
+
+
+// {
+// "productId" : "p01",
+// "title" : "product 01",
+// "price" : 100,
+// "description" : "desc",
+// "content" : "Content",
+// "images" : {
+//     "publicId": "uploads/ojyr7h3qrtj4jll6gruu",
+//     "url":""
+// },
+// "category" : "apple"
+// }
