@@ -6,12 +6,16 @@ const app = express()
 const URL = process.env.MONGO_URI
 const userRoutes = require("./routes/userRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
+const productRoutes = require("./routes/productRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
 const cookieParser = require("cookie-parser");
 
 app.use(express.json())
 app.use(cookieParser())
 app.use("/user", userRoutes)
 app.use("/api", categoryRoutes)
+app.use("/api", productRoutes)
+app.use("/api", uploadRoutes)
 
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`)
